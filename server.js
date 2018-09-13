@@ -26,10 +26,10 @@ function onClientRequest(client_req, client_res){
     });
     
     client_req.on('data', function(chunk) {
-        backend_req.write(chunk);
+        server_req.write(chunk);
     });
     client_req.on('end', function() {
-        backend_req.end();
+        server_req.end();
     });
 }
 
