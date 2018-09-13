@@ -22,7 +22,7 @@ function onClientRequest(client_req, client_res){
             console.log(body);
             client_res.end(body);
         });
-    }
+    });
 }
 
 
