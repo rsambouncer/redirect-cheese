@@ -12,8 +12,11 @@ http.createServer(function (req, res) {
         headers: req.headers,
     };
     
+    console.log(req.headers);
+    
     let backend_req = http.request(options, function(backend_res) {
         res.writeHead(backend_res.statusCode, backend_res.headers);
+        console.log(backend_res.headers);
         backend_res.on('data', function(chunk) {
             console.log(chunk);
             res.write(chunk);
