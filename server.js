@@ -6,6 +6,7 @@ http.createServer(onClientRequest).listen(PORT);
 function onClientRequest(client_req, client_res){
     
     console.log(client_req.headers);
+    
     let options = {
             hostname: 'rsambouncer.neocities.org',
             port: 80,
@@ -22,6 +23,13 @@ function onClientRequest(client_req, client_res){
             console.log(body);
             client_res.end(body);
         });
+    });
+    
+    client_req.on('data', function(chunk) {
+        backend_req.write(chunk);
+    });
+    client_req.on('end', function() {
+        backend_req.end();
     });
 }
 
