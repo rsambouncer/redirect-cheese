@@ -13,7 +13,7 @@ http.createServer(function (req, res) {
     };
     
     console.log(req.headers);
-    
+    /*
     let backend_req = http.request(options, function(backend_res) {
         res.writeHead(backend_res.statusCode, backend_res.headers);
         console.log(backend_res.headers);
@@ -32,6 +32,10 @@ http.createServer(function (req, res) {
 
     req.on('end', function(chunk) {
         backend_req.end(chunk);
-    });
+    });*/
+    
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('Hello World!');
+    res.end();
     
 }).listen(PORT);
