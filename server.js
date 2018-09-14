@@ -1,7 +1,7 @@
-const http = require('http');
+const https = require('https');
 const PORT = process.env.PORT || 3000;
 
-http.createServer(onClientRequest).listen(PORT);
+https.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
@@ -14,7 +14,7 @@ function onClientRequest(client_req, client_res){
             method: 'GET',
             path: '/index.html',
         };
-    let server_req = http.request(options, function(server_res){
+    let server_req = https.request(options, function(server_res){
         let body = "";
         server_res.on('data', function(chunk){
             body+=chunk;
