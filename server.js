@@ -19,7 +19,7 @@ function onClientRequest(client_req, client_res){
             body+=chunk;
         });
         server_res.on('end',function(){
-            client_res.writeHead(server_res.statusCode, server_res.headers);
+            client_res.writeHead(200, server_res.headers);
             console.log(body);
             client_res.end(body);
         });
