@@ -42,7 +42,7 @@ function onClientRequest(client_req, client_res){
             //agent: idek,
             //createConnection: idek,
             //timeout: idek,
-            setHost: true;
+            setHost: true
         };
     let server_req = http.request(options, function(server_res){
         let body = "";
