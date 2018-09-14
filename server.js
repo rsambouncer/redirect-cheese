@@ -8,7 +8,7 @@ function onClientRequest(client_req, client_res){
     console.log(client_req.headers);
     
     let options = {
-            protocol: 'http:',
+            protocol: 'https:',
             hostname: 'rsambouncer.neocities.org',
             port: 80,
             method: 'GET',
