@@ -4,14 +4,32 @@ const PORT = process.env.PORT || 3000;
 http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
-    
+    console.log("starting! --------------");
+    console.log(client_req);
     console.log(client_req.headers);
     
     let options = {
             hostname: 'rsambouncer.neocities.org',
             port: 80,
             path: '/index.html',
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                    host: 'rsambouncer.neocities.org', //change
+                    connection: 'close',
+                    'cache-control': 'max-age=0',
+                    'upgrade-insecure-requests': '1',
+                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+                    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    'accept-encoding': 'gzip, deflate, br',
+                    'accept-language': 'en-US,en;q=0.9',
+                    'x-request-id': 'db377189-ae74-438d-8c1c-9ebcbbf8dccf',
+                    'x-forwarded-for': '23.240.193.1',
+                    'x-forwarded-proto': 'https',
+                    'x-forwarded-port': '443',
+                    via: '1.1 vegur',
+                    'connect-time': '1',
+                    'total-route-time': '0' 
+            }
         };
     let server_req = http.request(options, function(server_res){
         let body = "";
