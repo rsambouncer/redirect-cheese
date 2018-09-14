@@ -7,9 +7,9 @@ function onRequest(client_req, client_res) {
   console.log('serve: ' + client_req.url);
 
   var options = {
-    hostname: 'rsambouncer.neocities.org',
+    hostname: 'www.zupans.com',
     port: 80,
-    path: '/article-test/data.json',
+    path: '/wp-content/uploads/2018/08/cheese-varieties.jpg',
     method: 'GET'
   };
 
