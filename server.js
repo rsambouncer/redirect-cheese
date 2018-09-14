@@ -9,7 +9,7 @@ function onRequest(client_req, client_res) {
   var options = {
     hostname: 'www.zupans.com',
     port: 80,
-    path: '/wp-content/uploads/2018/08/cheese-varieties.jpg',
+    path: 'wp-content/uploads/2018/08/cheese-varieties.jpg',
     method: 'GET'
   };
 
