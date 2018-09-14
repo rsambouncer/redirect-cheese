@@ -5,7 +5,6 @@ http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
-    console.log(client_req);
     console.log(client_req.headers);
     
     let options = {
