@@ -1,26 +1,35 @@
 const http = require('http');
 const PORT = process.env.PORT || 3000;
 
-http.createServer(onRequest).listen(PORT);
+http.createServer(onClientRequest).listen(PORT);
 
-function onRequest(client_req, client_res) {
-  console.log('serve: ' + client_req.url);
-
-  var options = {
-    hostname: 'www.zupans.com',
-    port: 80,
-    path: 'wp-content/uploads/2018/08/cheese-varieties.jpg',
-    method: 'GET'
-  };
-
-  var proxy = http.request(options, function (res) {
-    res.pipe(client_res, {
-      end: true
+function onClientRequest(client_req, client_res){
+    console.log("starting! --------------");
+    console.log(client_req.headers);
+    
+    let options = {
+            protocol: 'http:',
+            hostname: 'rsambouncer.neocities.org',
+            port: 80,
+            method: 'GET',
+            path: '/index.html',
+        };
+    let server_req = http.request(options, function(server_res){
+        let body = "";
+        server_res.on('data', function(chunk){
+            body+=chunk;
+        });
+        server_res.on('end',function(){
+            client_res.writeHead(200, server_res.headers);
+          console.log(server_res.headers);
+            client_res.end(body);
+        });
     });
-  });
-
-  client_req.pipe(proxy, {
-    end: true
-  });
+    
+    client_req.on('data', function(chunk) {
+        server_req.write(chunk);
+    });
+    client_req.on('end', function() {
+        server_req.end();
+    });
 }
-
