@@ -9,10 +9,18 @@ function onClientRequest(client_req, client_res){
     console.log(client_req.headers);
     
     let options = {
+            protocol: 'http:',
+            //host: 'rsambouncer.neocities.org',
             hostname: 'rsambouncer.neocities.org',
+            //family: 4,
             port: 80,
-            path: '/index.html',
+            //localAddress: '???????',
+            //socketPath: '??????',
             method: 'GET',
+            path: '/index.html',
+        
+        
+        
             headers: {
                     host: 'rsambouncer.neocities.org', //change
                     connection: 'close',
@@ -29,7 +37,13 @@ function onClientRequest(client_req, client_res){
                     via: '1.1 vegur',
                     'connect-time': '1',
                     'total-route-time': '0' 
-            }
+            },
+        
+            //auth:'',
+            //agent: idek,
+            //createConnection: idek,
+            //timeout: idek,
+            setHost: true;
         };
     let server_req = http.request(options, function(server_res){
         let body = "";
