@@ -1,5 +1,6 @@
 const http = require('http');
 const https = require('https');
+const url = require('url');
 const PORT = process.env.PORT || 3000;
 
 http.createServer(onClientRequest).listen(PORT);
@@ -8,12 +9,13 @@ function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     console.log(client_req.headers);
     
+    let urlobj = url.parse(req.url);
     let options = {
             protocol: 'https:',
-            hostname: 'rsambouncer.neocities.org',
+            hostname: urlobj.hostname,
             port: 443,
             method: 'GET',
-            path: '/index.html',
+            path: urlobj.path,
         };
     let server_req = https.request(options, function(server_res){
         let body = "";
