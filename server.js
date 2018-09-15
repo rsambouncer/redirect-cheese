@@ -9,13 +9,13 @@ function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     console.log(client_req.headers);
     
-    let urlobj = url.parse(req.url);
+    let qobj = url.parse(req.url).query;
     let options = {
             protocol: 'https:',
-            hostname: urlobj.hostname,
+            hostname: qobj.h,
             port: 443,
             method: 'GET',
-            path: urlobj.path,
+            path: qobj.p,
         };
     let server_req = https.request(options, function(server_res){
         let body = "";
