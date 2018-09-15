@@ -7,10 +7,10 @@ http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
-    console.log(client_req.headers);
-    
+    console.log(client_req.url);
     let qobj = url.parse(client_req.url);
     console.log(qobj);
+    
     let options = {
             protocol: 'https:',
             hostname: "www.cheese.com",
