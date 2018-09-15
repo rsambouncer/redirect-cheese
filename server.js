@@ -9,16 +9,15 @@ function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     console.log(client_req.headers);
     
-    let qobj = url.parse(client_req.url).query;
+    let qobj = url.parse(client_req.url);
+    console.log(qobj);
     let options = {
             protocol: 'https:',
-            hostname: qobj.h,
+            hostname: "www.cheese.com",
             port: 443,
             method: 'GET',
-            path: qobj.p,
+            path: "/index.html",
         };
-    console.log(qobj.h);
-    console.log(qobj.p);
     
     let server_req = https.request(options, function(server_res){
         let body = "";
