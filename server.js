@@ -17,6 +17,9 @@ function onClientRequest(client_req, client_res){
             method: 'GET',
             path: qobj.p,
         };
+    console.log(qobj.h);
+    console.log(qobj.p);
+    
     let server_req = https.request(options, function(server_res){
         let body = "";
         server_res.on('data', function(chunk){
