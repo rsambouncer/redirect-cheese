@@ -9,7 +9,7 @@ function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     console.log(client_req.headers);
     
-    let qobj = url.parse(req.url).query;
+    let qobj = url.parse(client_req.url).query;
     let options = {
             protocol: 'https:',
             hostname: qobj.h,
