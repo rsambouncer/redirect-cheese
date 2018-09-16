@@ -7,8 +7,7 @@ http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
-    console.log(url.parse(client_req.url.substring(1)));
-    let qobj = url.parse(client_req.url);
+    let qobj = url.parse(url.parse(client_req.url).path.substring(1));
     console.log(qobj);
     
     let options = {
