@@ -35,6 +35,8 @@ function onClientRequest(client_req, client_res){
         server_res.on('end',function(){
             client_res.writeHead(200, server_res.headers);
           console.log(server_res.headers);
+            let type = server_res.headers['content-type'];
+            if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
             client_res.end(body);
         });
     });
@@ -46,4 +48,12 @@ function onClientRequest(client_req, client_res){
         server_req.end();
     });
     
+}
+
+function processHTML(options,html){
+    //links to root need to go back through our server, in case they were blocked
+    html = html.replace(/http/gm,"https://redirect-cheese.herokuapp.com/http");
+    html = html.replace(/"\//gm,"\"https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
+    html = html.replace(/'\//gm,"\'https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
+    return html;
 }
