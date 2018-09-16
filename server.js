@@ -9,7 +9,8 @@ function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     let qobj = url.parse(url.parse(client_req.url).path.substring(1));
     console.log(qobj);
-    
+    console.log("nice nice");
+    /*
     let options = {
             protocol: 'https:',
             hostname: "www.cheese.com",
@@ -36,4 +37,5 @@ function onClientRequest(client_req, client_res){
     client_req.on('end', function() {
         server_req.end();
     });
+    */
 }
