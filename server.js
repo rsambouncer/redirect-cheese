@@ -7,17 +7,25 @@ http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
+    
     let qobj = url.parse(url.parse(client_req.url).path.substring(1));
     console.log(qobj);
-    console.log("nice nice");
-    /*
+    
+    if(!qobj.hostname){
+        console.log("no url request");
+        client_res.end("Request not formatted correctly");
+        return;
+    }
+    
     let options = {
-            protocol: 'https:',
-            hostname: "www.cheese.com",
-            port: 443,
-            method: 'GET',
-            path: "/index.html",
-        };
+            protocol: qobj.protocol||"https:",
+            hostname: qobj.hostname };
+            if(qobj.auth) options.auth = qobj.auth;
+            if(qobj.port) options.port = qobj.port;
+            if(qobj.method) options.method = qobj.method;
+            if(qobj.path) options.path = qobj.path;
+    console.log(options);
+    
     
     let server_req = https.request(options, function(server_res){
         let body = "";
@@ -37,5 +45,5 @@ function onClientRequest(client_req, client_res){
     client_req.on('end', function() {
         server_req.end();
     });
-    */
+    
 }
