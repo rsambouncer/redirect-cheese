@@ -32,8 +32,8 @@ function onClientRequest(client_req, client_res){
         });
         server_res.on('end',function(){
             client_res.writeHead(200, server_res.headers);
-            //let type = server_res.headers['content-type'];
-            //if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
+            let type = server_res.headers['content-type'];
+            if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
             client_res.end(body);
         });
     });
@@ -50,8 +50,11 @@ function onClientRequest(client_req, client_res){
 //doesn't work - too buggy. Going to try the onbeforerequest thing on client side
 function processHTML(options,html){
     //links to root need to go back through our server, in case they were blocked
-    html = html.replace(/http/gm,"https://redirect-cheese.herokuapp.com/http");
-    html = html.replace(/"\//gm,"\"https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
-    html = html.replace(/'\//gm,"\'https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
+    //html = html.replace(/http/gm,"https://redirect-cheese.herokuapp.com/http");
+    //html = html.replace(/"\//gm,"\"https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
+    //html = html.replace(/'\//gm,"\'https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
+    
+    html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.subtring(1);});
+    
     return html;
 }
