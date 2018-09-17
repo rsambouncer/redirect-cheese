@@ -54,7 +54,7 @@ function processHTML(options,html){
     //html = html.replace(/"\//gm,"\"https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
     //html = html.replace(/'\//gm,"\'https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
     
-    html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.subtring(1);});
+    html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.substring(1);});
     
     return html;
 }
