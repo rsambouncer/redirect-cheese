@@ -47,14 +47,13 @@ function onClientRequest(client_req, client_res){
     
 }
 
-//doesn't work - too buggy. Going to try the onbeforerequest thing on client side
+
 function processHTML(options,html){
-    //links to root need to go back through our server, in case they were blocked
-    //html = html.replace(/http/gm,"https://redirect-cheese.herokuapp.com/http");
-    //html = html.replace(/"\//gm,"\"https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
-    //html = html.replace(/'\//gm,"\'https://redirect-cheese.herokuapp.com/"+options.protocol+"//"+options.hostname+"/");
-    
-    html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.substring(1);});
+    if(!html.includes("<base")){
+        let baseurl = options.protocol+"//"+options.hostname+"/"+(options.path?options.path:"");
+        html = html.replace(/<head.*?>/m,"$&<base href=\""+baseurl+"\">");
+    }
+    //html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.substring(1);});
     
     return html;
 }
