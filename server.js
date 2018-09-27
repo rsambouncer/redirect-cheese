@@ -50,7 +50,7 @@ function onClientRequest(client_req, client_res){
 
 function processHTML(options,html){
     if(!html.includes("<base")){
-        let baseurl = options.protocol+"//"+options.hostname+"/"+(options.path?options.path:"");
+        let baseurl = options.protocol+"//"+options.hostname+(options.path?options.path:"");
         html = html.replace(/<head.*?>/m,"$&<base href=\""+baseurl+"\">");
     }
     //html = html.replace(/("|')\/[^\/]/gm, function(match){return match.substring(0,1)+"//"+options.hostname+match.substring(1);});
