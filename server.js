@@ -28,7 +28,7 @@ function onClientRequest(client_req, client_res){
         forwardheader("accept");
         forwardheader("accept-encoding");
         forwardheader("accept-language");
-        forwardheader("user-agent");
+        //forwardheader("user-agent");
     
     
     
