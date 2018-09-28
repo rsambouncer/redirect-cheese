@@ -26,7 +26,7 @@ function onClientRequest(client_req, client_res){
     options.headers = {};
         function forwardheader(hstr){if(client_req.headers[hstr]) options.headers[hstr] = client_req.headers[hstr];}
         forwardheader("accept");
-        forwardheader("accept-encoding");
+        //forwardheader("accept-encoding");
         forwardheader("accept-language");
         //forwardheader("user-agent");
     
