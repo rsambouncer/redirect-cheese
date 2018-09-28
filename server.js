@@ -7,11 +7,10 @@ http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
-    
+    console.log(client_req.headers);
     let qobj = url.parse(url.parse(client_req.url).path.substring(1));
     
     if(!qobj.hostname){
-        console.log(qobj);
         client_res.end("Request not formatted correctly");
         return;
     }
@@ -23,7 +22,9 @@ function onClientRequest(client_req, client_res){
             if(qobj.port) options.port = qobj.port;
             if(qobj.method) options.method = qobj.method;
             if(qobj.path) options.path = qobj.path;
-    
+            
+    options.headers = client_req.headers;
+        if(options.headers.host) options.headers.host = qobj.hostname;
     
     let server_req = https.request(options, function(server_res){
         let body = "";
