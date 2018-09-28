@@ -25,6 +25,12 @@ function onClientRequest(client_req, client_res){
             
     options.headers = client_req.headers;
         if(options.headers.host) options.headers.host = qobj.hostname;
+        if(options.headers["x-request-id"]) delete options.headers["x-request-id"];
+        if(options.headers["x-forwarded-for"]) delete options.headers["x-forwarded-for"];
+        if(options.headers["x-forwarded-proto"]) delete options.headers["x-forwarded-proto"];
+        if(options.headers["x-forwarded-port"]) delete options.headers["x-forwarded-port"];
+        if(options.headers["cookie"]) delete options.headers["cookie"];
+        if(options.headers["via"]) delete options.headers["via"];
     
     let server_req = https.request(options, function(server_res){
         let body = "";
