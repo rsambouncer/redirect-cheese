@@ -22,15 +22,16 @@ function onClientRequest(client_req, client_res){
             if(qobj.port) options.port = qobj.port;
             if(qobj.method) options.method = qobj.method;
             if(qobj.path) options.path = qobj.path;
-            
-    options.headers = client_req.headers;
-        if(options.headers.host) options.headers.host = qobj.hostname;
-        if(options.headers["x-request-id"]) delete options.headers["x-request-id"];
-        if(options.headers["x-forwarded-for"]) delete options.headers["x-forwarded-for"];
-        if(options.headers["x-forwarded-proto"]) delete options.headers["x-forwarded-proto"];
-        if(options.headers["x-forwarded-port"]) delete options.headers["x-forwarded-port"];
-        if(options.headers["cookie"]) delete options.headers["cookie"];
-        if(options.headers["via"]) delete options.headers["via"];
+      
+    options.headers = {accept:client_req.headers.accept};
+    //options.headers = client_req.headers;
+        //if(options.headers.host) options.headers.host = qobj.hostname;
+        //if(options.headers["x-request-id"]) delete options.headers["x-request-id"];
+        //if(options.headers["x-forwarded-for"]) delete options.headers["x-forwarded-for"];
+        //if(options.headers["x-forwarded-proto"]) delete options.headers["x-forwarded-proto"];
+        //if(options.headers["x-forwarded-port"]) delete options.headers["x-forwarded-port"];
+        //if(options.headers["cookie"]) delete options.headers["cookie"];
+        //if(options.headers["via"]) delete options.headers["via"];
     
     let server_req = https.request(options, function(server_res){
         let body = "";
