@@ -23,7 +23,15 @@ function onClientRequest(client_req, client_res){
             if(qobj.method) options.method = qobj.method;
             if(qobj.path) options.path = qobj.path;
       
-    options.headers = {accept:client_req.headers.accept};
+    options.headers = {};
+        function forwardheader(hstr){if(client_req.headers[hstr]) options.headers[hstr] = client_req.headers[hstr];}
+        forwardheader("accept");
+        forwardheader("accept-encoding");
+        forwardheader("accept-language");
+        forwardheader("user-agent");
+    
+    
+    
     //options.headers = client_req.headers;
         //if(options.headers.host) options.headers.host = qobj.hostname;
         //if(options.headers["x-request-id"]) delete options.headers["x-request-id"];
