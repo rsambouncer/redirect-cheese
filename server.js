@@ -11,7 +11,8 @@ function onClientRequest(client_req, client_res){
     let requestedurl = url.parse(client_req.url).path.substring(1);
     
     
-    let server_req = httpsReqFromURL(requestedurl,client_res)
+    let server_req = httpsReqFromURL(requestedurl,client_res);
+        if(server_req==null) return;
     
     client_req.on('data', function(chunk) {
         server_req.write(chunk);
@@ -27,7 +28,7 @@ function httpsReqFromURL(requrl, get_res){
     let qobj = url.parse(requrl);
     if(!qobj.hostname){
         get_res.end("Request not formatted correctly");
-        return;
+        return null;
     }
 
     let options = {
