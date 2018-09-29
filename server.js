@@ -8,55 +8,10 @@ http.createServer(onClientRequest).listen(PORT);
 function onClientRequest(client_req, client_res){
     console.log("starting! --------------");
     console.log(client_req.headers);
-    let qobj = url.parse(url.parse(client_req.url).path.substring(1));
-    
-    if(!qobj.hostname){
-        client_res.end("Request not formatted correctly");
-        return;
-    }
-    
-    let options = {
-            protocol: qobj.protocol||"https:",
-            hostname: qobj.hostname };
-            if(qobj.auth) options.auth = qobj.auth;
-            if(qobj.port) options.port = qobj.port;
-            if(qobj.method) options.method = qobj.method;
-            if(qobj.path) options.path = qobj.path;
-      
-    options.headers = {};
-        function forwardheader(hstr){if(client_req.headers[hstr]) options.headers[hstr] = client_req.headers[hstr];}
-        forwardheader("accept");
-        //forwardheader("accept-encoding");
-        forwardheader("accept-language");
-        forwardheader("user-agent");
+    let requestedurl = url.parse(client_req.url).path.substring(1);
     
     
-    
-    //options.headers = client_req.headers;
-        //if(options.headers.host) options.headers.host = qobj.hostname;
-        //if(options.headers["x-request-id"]) delete options.headers["x-request-id"];
-        //if(options.headers["x-forwarded-for"]) delete options.headers["x-forwarded-for"];
-        //if(options.headers["x-forwarded-proto"]) delete options.headers["x-forwarded-proto"];
-        //if(options.headers["x-forwarded-port"]) delete options.headers["x-forwarded-port"];
-        //if(options.headers["cookie"]) delete options.headers["cookie"];
-        //if(options.headers["via"]) delete options.headers["via"];
-    
-    let server_req = https.request(options, function(server_res){
-        let body = "";
-        server_res.on('data', function(chunk){
-            body+=chunk;
-        });
-        server_res.on('end',function(){
-            client_res.writeHead(200, server_res.headers);
-            if(server_res.statusCode>=300 && server_res.statusCode<400){ //redirect
-                //do something
-            }else{
-                let type = server_res.headers['content-type'];
-                if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
-            }
-            client_res.end(body);
-        });
-    });
+    let server_req = httpsReqFromURL(requestedurl,client_res)
     
     client_req.on('data', function(chunk) {
         server_req.write(chunk);
@@ -67,6 +22,48 @@ function onClientRequest(client_req, client_res){
     
 }
 
+
+function httpsReqFromURL(requrl, get_res){
+    let qobj = url.parse(requrl);
+    if(!qobj.hostname){
+        get_res.end("Request not formatted correctly");
+        return;
+    }
+
+    let options = {
+        protocol: qobj.protocol||"https:",
+        hostname: qobj.hostname };
+        if(qobj.auth) options.auth = qobj.auth;
+        if(qobj.port) options.port = qobj.port;
+        if(qobj.method) options.method = qobj.method;
+        if(qobj.path) options.path = qobj.path;
+
+    options.headers = {};
+        function forwardheader(hstr){if(client_req.headers[hstr]) options.headers[hstr] = client_req.headers[hstr];}
+        forwardheader("accept");
+        //forwardheader("accept-encoding");
+        forwardheader("accept-language");
+        forwardheader("user-agent");
+
+    let server_req = https.request(options, function(server_res){
+        let body = "";
+        server_res.on('data', function(chunk){
+            body+=chunk;
+        });
+        server_res.on('end',function(){
+            get_res.writeHead(200, server_res.headers);
+            if(server_res.statusCode>=300 && server_res.statusCode<400){ //redirect
+                //do something
+            }else{
+                let type = server_res.headers['content-type'];
+                if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
+            }
+            get_res.end(body);
+        });
+    });
+
+    return server_req;
+}
 
 function processHTML(options,html){
     if(!html.includes("<base")){
