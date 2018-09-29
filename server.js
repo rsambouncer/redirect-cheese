@@ -28,7 +28,7 @@ function onClientRequest(client_req, client_res){
         forwardheader("accept");
         //forwardheader("accept-encoding");
         forwardheader("accept-language");
-        //forwardheader("user-agent");
+        forwardheader("user-agent");
     
     
     
@@ -48,6 +48,9 @@ function onClientRequest(client_req, client_res){
         });
         server_res.on('end',function(){
             client_res.writeHead(200, server_res.headers);
+            if(server_res.statusCode!=200){
+                console.log(server_res);
+            }
             let type = server_res.headers['content-type'];
             if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
             client_res.end(body);
