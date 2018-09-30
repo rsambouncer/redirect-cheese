@@ -11,7 +11,7 @@ function onClientRequest(client_req, client_res){
     let requestedurl = url.parse(client_req.url).path.substring(1);
     
     
-    let server_req = httpsReqFromURL(requestedurl,client_res);
+    let server_req = httpsReqFromURL(requestedurl, client_req, client_res);
         if(server_req==null) return;
     
     client_req.on('data', function(chunk) {
@@ -24,10 +24,10 @@ function onClientRequest(client_req, client_res){
 }
 
 
-function httpsReqFromURL(requrl, get_res){
+function httpsReqFromURL(requrl, client_req, client_res){
     let qobj = url.parse(requrl);
     if(!qobj.hostname){
-        get_res.end("Request not formatted correctly");
+        client_res.end("Request not formatted correctly");
         return null;
     }
 
@@ -52,14 +52,14 @@ function httpsReqFromURL(requrl, get_res){
             body+=chunk;
         });
         server_res.on('end',function(){
-            get_res.writeHead(200, server_res.headers);
+            client_res.writeHead(200, server_res.headers);
             if(server_res.statusCode>=300 && server_res.statusCode<400){ //redirect
                 //do something
             }else{
                 let type = server_res.headers['content-type'];
                 if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
             }
-            get_res.end(body);
+            client_res.end(body);
         });
     });
 
