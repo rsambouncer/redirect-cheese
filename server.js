@@ -6,8 +6,7 @@ const PORT = process.env.PORT || 3000;
 http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
-    console.log("starting! --------------");
-    console.log(client_req.headers);
+    
     let requestedurl = url.parse(client_req.url).path.substring(1);
     
     
@@ -25,6 +24,9 @@ function onClientRequest(client_req, client_res){
 
 
 function httpsReqFromURL(requrl, client_req, client_res){
+    
+    console.log("Getting resource: "+requrl);
+    
     let qobj = url.parse(requrl);
     if(!qobj.hostname){
         client_res.end("Request not formatted correctly");
