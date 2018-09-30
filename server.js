@@ -9,7 +9,6 @@ function onClientRequest(client_req, client_res){
     
     let requestedurl = url.parse(client_req.url).path.substring(1);
     
-    
     let server_req = httpsReqFromURL(requestedurl, client_req, client_res);
         if(server_req==null) return;
     
@@ -47,6 +46,8 @@ function httpsReqFromURL(requrl, client_req, client_res){
         //forwardheader("accept-encoding");
         forwardheader("accept-language");
         forwardheader("user-agent");
+        forwardheader("cookie");
+        forwardheader("via");
 
     let server_req = https.request(options, function(server_res){
         let body = "";
