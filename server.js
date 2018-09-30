@@ -54,7 +54,8 @@ function httpsReqFromURL(requrl, client_req, client_res){
         server_res.on('end',function(){
             client_res.writeHead(200, server_res.headers);
             if(server_res.statusCode>=300 && server_res.statusCode<400){ //redirect
-                //do something
+                console.log(server_res.headers);
+                return httpsReqFromURL(server_res.headers['location'],client_req,client_res);
             }else{
                 let type = server_res.headers['content-type'];
                 if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
