@@ -57,7 +57,13 @@ function httpsReqFromURL(requrl, client_req, client_res){
             client_res.writeHead(200, server_res.headers);
             if(server_res.statusCode>=300 && server_res.statusCode<400 || server_res.statusCode==201){ 
                 //redirect, or 201 created
-                return httpsReqFromURL(server_res.headers['location'],client_req,client_res);
+                let redirect_req = httpsReqFromURL(server_res.headers['location'],client_req,client_res);
+                server_req.on('data', function(chunk) {
+                    redirect_req.write(chunk);
+                });
+                server_req.on('end', function() {
+                    redirect_req.end();
+                });
             }else{
                 let type = server_res.headers['content-type'];
                 if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
