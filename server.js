@@ -55,8 +55,8 @@ function httpsReqFromURL(requrl, client_req, client_res){
         });
         server_res.on('end',function(){
             client_res.writeHead(200, server_res.headers);
-            if(server_res.statusCode>=300 && server_res.statusCode<400){ //redirect
-                console.log(server_res.headers);
+            if(server_res.statusCode>=300 && server_res.statusCode<400 || server_res.statusCode==201){ 
+                //redirect, or 201 created
                 return httpsReqFromURL(server_res.headers['location'],client_req,client_res);
             }else{
                 let type = server_res.headers['content-type'];
