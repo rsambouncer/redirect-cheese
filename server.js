@@ -15,11 +15,9 @@ function onClientRequest(client_req, client_res){
     
     client_req.on('data', function(chunk) {
         server_req.write(chunk);
-        console.log("ondata");
     });
     client_req.on('end', function() {
         server_req.end();
-        console.log("onend");
     });
     
 }
@@ -60,9 +58,7 @@ function httpsReqFromURL(requrl, client_req, client_res){
             if(server_res.statusCode>=300 && server_res.statusCode<400 || server_res.statusCode==201){ 
                 //redirect, or 201 created
                 let redirect_req = httpsReqFromURL(server_res.headers['location'],client_req,client_res);
-                server_req.write = redirect_req.write;
-                server_req.end = redirect_req.end;
-                console.log("renamed functions");
+                redirect_req.end();
             }else{
                 let type = server_res.headers['content-type'];
                 if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
