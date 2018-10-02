@@ -12,12 +12,11 @@ function onClientRequest(client_req, client_res){
     let server_req = httpsReqFromURL(requestedurl, client_req, client_res);
         if(server_req==null) return;
     
-    client_req.on('data', function(chunk) {
-        server_req.write(chunk);
-    });
-    client_req.on('end', function() {
-        server_req.end();
-    });
+    client_req.on('data', (chunk)=>{server_req.write(chunk);console.log("chunk: "+chunk);} );
+    
+    client_req.on('error', (err)=>{console.error(err);} );
+    
+    client_req.on('end', ()=>{ server_req.end();} );
     
 }
 
