@@ -14,7 +14,7 @@ function onClientRequest(client_req, client_res){
     
     client_req.on('data', (chunk)=>{server_req.write(chunk);console.log("chunk: "+chunk);} );
     
-    client_req.on('error', (err)=>{console.error(err);} );
+    client_req.on('error', (err)=>{console.log(err);} );
     
     client_req.on('end', ()=>{ server_req.end();} );
     
