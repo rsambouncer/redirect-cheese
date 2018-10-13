@@ -61,7 +61,7 @@ function httpsReqFromURL(requrl, client_req, client_res){
                 redirect_req.end();
             }else{
                 let type = server_res.headers['content-type'];
-                if(type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
+                if(type&&type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
                 client_res.end(body);
             }
         });
