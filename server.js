@@ -48,7 +48,8 @@ function httpsReqFromURL(requrl, client_req, client_res){
         forwardheader("cookie");
         forwardheader("via");
 
-    let server_req = https.request(options, function(server_res){
+    let proto = options.protocol==="https:"?https:http;
+    let server_req = proto.request(options, function(server_res){
         let body = "";
         server_res.on('data', function(chunk){
             body+=chunk;
