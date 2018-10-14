@@ -54,7 +54,7 @@ function httpsReqFromURL(requrl, client_req, client_res){
         server_res.on('data', function(chunk){
             body+=chunk;
         });
-        server_res.on('end',function(){
+        server_res.on('end', function(){
             client_res.writeHead(200, server_res.headers);
             if(server_res.statusCode>=300 && server_res.statusCode<400 || server_res.statusCode==201){ 
                 //redirect, or 201 created
@@ -65,6 +65,9 @@ function httpsReqFromURL(requrl, client_req, client_res){
                 if(type&&type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
                 client_res.end(body);
             }
+        });
+        server_res.on('error',function(err){
+            console.log(err);
         });
     });
 
