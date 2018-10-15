@@ -27,6 +27,9 @@ function httpsReqFromURL(requrl, client_req, client_res){
     
     let qobj = url.parse(requrl);
     if(!qobj.hostname){
+        
+        try{
+        
         if(!client_req.headers['proxy-authorization']){ 
             console.log("407");
             //client_res.writeHead(407,{"Proxy-authenticate":"Basic"});
@@ -34,6 +37,9 @@ function httpsReqFromURL(requrl, client_req, client_res){
         }else{
             client_res.end("Request not formatted correctly");
         }
+            
+        }catch(e){console.log(e);}    
+            
         return null;
     }
 
