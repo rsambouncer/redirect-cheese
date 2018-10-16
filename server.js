@@ -27,8 +27,8 @@ function httpsReqFromURL(requrl, client_req, client_res){
     
     let qobj = url.parse(requrl);
     if(!qobj.hostname){
-        if(client_req.headers['authorisation']!=="Basic Y2hlZXNlOmNoZWVzZQ=="){ 
-            console.log(client_req.headers['authorisation']);
+        if(client_req.headers['authorization']!=="Basic Y2hlZXNlOmNoZWVzZQ=="){ 
+            console.log(client_req.headers['authorization']);
             client_res.writeHead(401, {"WWW-Authenticate": "Basic"});
             client_res.end("not authenticated");
         }else{
