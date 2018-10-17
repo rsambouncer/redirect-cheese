@@ -60,14 +60,17 @@ function httpsReqFromURL(requrl, client_req, client_res){
             body+=chunk;
         });
         server_res.on('end', function(){
-            client_res.writeHead(200, server_res.headers);
             if(server_res.statusCode>=300 && server_res.statusCode<400 || server_res.statusCode==201){ 
                 //redirect, or 201 created
                 let redirect_req = httpsReqFromURL(server_res.headers['location'],client_req,client_res);
                 redirect_req.end();
             }else{
                 let type = server_res.headers['content-type'];
-                if(type&&type.length>=9&&type.substring(0,9)==="text/html") body = processHTML(options,body);
+                if(type&&type.length>=9&&type.substring(0,9)==="text/html"){ 
+                    //server_res.headers['content-security-policy'] = 
+                    body = processHTML(options,body);
+                }
+                client_res.writeHead(200, server_res.headers);
                 client_res.end(body);
             }
         });
