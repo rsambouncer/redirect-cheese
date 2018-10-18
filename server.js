@@ -87,10 +87,5 @@ function processHTML(options,html){
         let baseurl = options.protocol+"//"+options.hostname+(options.path?options.path:"");
         html = html.replace(/<head.*?>/m,"$&<base href=\""+baseurl+"\">");
     }
-    
-    html = html.replace(/<head.*?>/m,"$&<script>history.replaceState=function(){};</script>");
-    
-    
-    
     return html;
 }
