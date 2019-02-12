@@ -65,12 +65,12 @@ function httpsReqFromURL(requrl, client_req, client_res){
                 let redirect_req = httpsReqFromURL(server_res.headers['location'],client_req,client_res);
                 redirect_req.end();
             }else{
-                let type = server_res.headers['content-type'];
+                /*let type = server_res.headers['content-type'];
                 if(type&&type.length>=9&&type.substring(0,9)==="text/html"){ 
                     body = processHTML(options,body);
                     server_res.headers['content-security-policy'] = "default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; frame-src *;";
                     if(server_res.headers['content-length']) server_res.headers['content-length'] = body.length;
-                }
+                }*/
                 client_res.writeHead(200, server_res.headers);
                 client_res.end(body);
             }
