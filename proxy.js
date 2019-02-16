@@ -10,7 +10,10 @@ function onClientRequest(client_req, client_res){
     console.log("Getting resource: "+ client_req.url);
     
     let qobj = url.parse(client_req.url);
-        if(!qobj.hostname) client_res.end("Request not formatted correctly: No hostname");
+    if(!qobj.hostname){ 
+        client_res.end("Request not formatted correctly: No hostname"); 
+        return;
+    }
     let options = {
         protocol: qobj.protocol||"https:",
         hostname: qobj.hostname, 
