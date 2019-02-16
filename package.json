@@ -7,7 +7,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node proxy.js"
+    "start": "node proxy2.js"
   },
   "keywords": [],
   "author": "",
