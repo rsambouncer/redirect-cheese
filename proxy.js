@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 http.createServer(onClientRequest).listen(PORT);
 
 function onClientRequest(client_req, client_res){
-    
+    console.log("Request on port "+PORT);
     console.log("Getting resource: "+ client_req.url);
     
     let qobj = url.parse(client_req.url);
