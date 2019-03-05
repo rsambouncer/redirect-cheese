@@ -2,10 +2,18 @@ const http = require('http');
 const net = require('net');
 const url = require('url');
 const PORT = 8080;
+const PASS = "Basic cGFzczp3b3Jk"; //pass:word
 
 // create an HTTP tunneling proxy
 const proxy = http.createServer((req, res) => {
   console.log("HTTP Proxying "+req.url);
+  if(req.headers['proxy-authorization']!==PASS){ 
+    console.log("Not authorized: proxy-authenticate header needed: ");
+    console.log(req.headers);
+    res.writeHead(407,{"Proxy-Authenticate":"Basic"});
+    res.end();
+    return;
+  }
   let options = {
     headers:req.headers,
     method:req.method
@@ -22,6 +30,15 @@ const proxy = http.createServer((req, res) => {
 //connect handler code from https://nodejs.org/api/http.html#http_event_connect
 proxy.on('connect', (req, cltSocket, head) => {
   console.log("Connect Proxying "+req.url);
+  if(req.headers['proxy-authorization']!==PASS){ 
+    console.log("Not authorized: proxy-authenticate header needed: ");
+    console.log(req.headers);
+    cltSocket.write('HTTP/1.1 407 Proxy Authentication Required\r\n'+ 
+                    'Proxy-Authenticate: Basic\r\n'+
+                    '\r\n');
+    cltSocket.end();
+    return;
+  }
   const srvUrl = url.parse("http://"+req.url);
   const srvSocket = net.connect(srvUrl.port, srvUrl.hostname, () => {
     cltSocket.write('HTTP/1.1 200 Connection Established\r\n' +
