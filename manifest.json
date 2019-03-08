@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Cheese rerouter",
+  "version": "1.0",
+  "description": "redirects cheese",
+  "icons": {
+    "128": "calc_thumb.png"
+  },
+  
+  "permissions": [
+    "proxy"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistant": true
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  }
+}
